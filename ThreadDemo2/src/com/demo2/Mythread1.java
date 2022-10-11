@@ -1,5 +1,7 @@
 package com.demo2;
 
+import java.util.Scanner;
+
 public class Mythread1 extends Thread {
 
 	Table t;
@@ -10,6 +12,13 @@ public class Mythread1 extends Thread {
 
 	public void run() {
 		System.out.println("-----------------------");
-		t.PrintTable(6);
+		table();
+	}
+
+	public void table() {
+//		System.out.println("enter 2nd table you want to see ");
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		t.PrintTable(n);
 	}
 }
