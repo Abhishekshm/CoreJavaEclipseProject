@@ -11,12 +11,12 @@ public class Mythread1 extends Thread {
 	}
 
 	public void run() {
-		System.out.println("-----------------------");
+//		System.out.println("-----------------------");
 		table();
 	}
 
 	public void table() {
-//		System.out.println("enter 2nd table you want to see ");
+		System.out.println("enter 1st table you want to see ");
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		t.PrintTable(n);

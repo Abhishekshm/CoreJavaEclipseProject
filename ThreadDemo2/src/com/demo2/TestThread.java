@@ -7,6 +7,12 @@ public class TestThread {
 		Mythread2 t2 = new Mythread2();
 
 		t1.start();
+		try {
+			t1.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		t2.start();
 	}
 }
