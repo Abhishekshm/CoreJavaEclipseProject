@@ -13,6 +13,8 @@ public class Table {
 	 */
 
 	synchronized static void PrintTable(int n) {
+
+		System.out.println("------------------------------");
 		for (int i = 1; i <= 10; i++) {
 			System.out.println(n + " * " + i + " = " + n * i);
 			try {
