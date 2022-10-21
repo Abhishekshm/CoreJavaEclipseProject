@@ -35,51 +35,66 @@ public class App {
 
 		// Local variable
 		int choice;
+		try {
+			// do-while Loop
+			do {
 
-		// do-while Loop
-		do {
+				menu();
+				choice = sc.nextInt(); // Taking input
+				// declare Switch case
+				switch (choice) {
 
-			menu();
-			choice = sc.nextInt(); // Taking input
-			// declare Switch case
-			switch (choice) {
+				case 1:
+					school.addStudent(); // calling method to add Student
+					System.out.println("Student Added Sucessfully"); // printing statement
+					break; // out from the case
 
-			case 1:
-				school.addStudent(); // calling method to add Student
-				System.out.println("Student Added Sucessfully"); // printing statement
-				break; // out from the case
+				case 2:
+					System.out.println("Enter the Id which you  want to be deleted:"); // asking user to enter value
+					int id = sc.nextInt(); // Taking input
+					boolean flag = school.removeStudent(id); // Storing boolean value to flag
+					if (flag) // if - else
+						System.out.println("Student records are Delete"); // True-----
+					else
+						System.out.println("Student record is not found");// false----
+					break; // out from the case
+				case 3:
+					System.out.println("Eneter the id which will be Updated");
+					id = sc.nextInt();
+					flag = school.updateStudent(id);
+					if (flag) {
+						System.out.println("Update Successfully");
+					} else {
+						System.out.println("Id is not present in our system");
+					}
+					break;
 
-			case 2:
-				System.out.println("Enter the Id which you  want to be deleted:"); // asking user to enter value
-				int id = sc.nextInt(); // Taking input
-				boolean flag = school.removeStudent(id); // Storing boolean value to flag
-				if (flag) // if - else
-					System.out.println("Student records are Delete"); // True-----
-				else
-					System.out.println("Student record is not found");// false----
-				break; // out from the case
+				case 4:
+					Student ss = null; // declaring Student Reference
+					System.out.println("Enter the Id to be searched"); // asking user to enter value
+					id = sc.nextInt(); // Taking Input
+					ss = school.findStudent(id); // Storing student id into the ss
+					if (ss == null) // if-else
+						System.out.println("Student not found......."); // ---True
+					else
+						System.out.println(
+								"Student Id :" + ss.getId() + "  Name:" + ss.getName() + "   Marks:" + ss.getMarks()); // ----False
+					break; // out from the case
+				case 5:
+					school.displayAll();
+					break;
 
-			case 4:
-				Student ss = null; // declaring Student Reference
-				System.out.println("Enter the Id to be searched"); // asking user to enter value
-				id = sc.nextInt(); // Taking Input
-				ss = school.findStudent(id); // Storing student id into the ss
-				if (ss == null) // if-else
-					System.out.println("Student not found......."); // ---True
-				else
-					System.out.println(
-							"Student Id :" + ss.getId() + "  Name:" + ss.getName() + "   Marks:" + ss.getMarks()); // ----False
-				break; // out from the case
+				case 6:
+					System.exit(0); // System Exit
+					break; // out from the case
+				default: // Default case
+					System.out.println("Wrong Chice is Entered "); // if user gives wrong vlaue
 
-			case 6:
-				System.exit(0); // System Exit
-				break; // out from the case
-			default: // Default case
-				System.out.println("Wrong Chice is Entered "); // if user gives wrong vlaue
-
-			}
-		} while (choice != 6); // if condition matches loop continue to iterate //----End of do While---//
-		sc.close(); // closing scanner
-
+				}
+			} while (choice != 6); // if condition matches loop continue to iterate //----End of do While---//
+			sc.close(); // closing scanner
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	} // end of main
 }// end of class

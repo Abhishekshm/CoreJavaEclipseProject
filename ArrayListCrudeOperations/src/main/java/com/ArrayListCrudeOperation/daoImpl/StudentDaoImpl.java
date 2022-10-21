@@ -61,9 +61,27 @@ public class StudentDaoImpl implements StudentDao {
 	}// end of method
 
 	// Method for updating Student
-	public boolean updateStudent(int id, Student s) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateStudent(int id) {
+		// Local variable
+		boolean status = false;
+		// Student refence
+		Student sfind = null;
+		// finding the student in the List
+		for (Student s : studentList) {
+			if (s.getId() == id)
+				sfind = s;
+		} // end of for
+
+		if (sfind != null) {
+			System.out.println("Enter the name: ");
+			sfind.setName(sc.next());
+			System.out.println("Enter the marks: ");
+			sfind.setMarks(sc.nextFloat());
+			status = true;
+		} else {
+			status = false;
+		}
+		return status;
 	}
 
 	// method for finding Student details in the list
@@ -77,5 +95,12 @@ public class StudentDaoImpl implements StudentDao {
 		} // end of for
 		return sfind;
 	}// end of method
+
+	public void displayAll() {
+		for (Student s : studentList) {
+			System.out.println(s);
+		}
+
+	}
 
 }// end of class

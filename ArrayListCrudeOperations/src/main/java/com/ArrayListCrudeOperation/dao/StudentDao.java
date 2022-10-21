@@ -12,7 +12,9 @@ public interface StudentDao {
 
 	public boolean removeStudent(int id);
 
-	public boolean updateStudent(int id, Student s);
+	public boolean updateStudent(int id);
 
 	Student findStudent(int id);
+
+	public void displayAll();
 }// end of class

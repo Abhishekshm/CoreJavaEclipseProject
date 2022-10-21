@@ -52,7 +52,7 @@ public class Student {
 	// ToString method
 	@Override
 	public String toString() {
-		return " [id=" + id + ", name=" + name + ", marks=" + marks + "]";
+		return "Student [id=" + id + ", name=" + name + ", marks=" + marks + "]";
 	}// end of to String method
 
 }// end of class
