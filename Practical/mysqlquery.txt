@@ -1,0 +1,248 @@
+SQL :Structured Query Language
+
+MYSQL:It is a Relational Database Management System on the Structured Query Language.
+
+MYSQL creates database that allows you to build many tables to store and manipulate data and defining
+ the relationship between each table.
+
+Datatypes:
+int
+bigint
+varchar(20)
+float(m,d) => m:length , d= number of decimal
+double(m,d) => m:length , d= number of decimal
+bool/boolean( T/F)
+datetime('yyyy-mm-dd' 'hh:mm:ss')
+
+mysql> create database Empdb;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| anju               |
+| anpc2551           |
+| db                 |
+| demo               |
+| empdb              |
+| hibernate_db       |
+| information_schema |
+| java               |
+| jwtdb              |
+| mysql              |
+| performance_schema |
+| sakila             |
+| security           |
+| springhibernate    |
+| studentdb          |
+| studentmanagement  |
+| sys                |
+| world              |
++--------------------+
+18 rows in set (0.01 sec)
+
+mysql> use empdb;
+Database changed
+mysql> create table emp(
+    -> id int not null auto_increment,
+    -> name varchar(20) not null,
+    -> occupation varchar(20) not null,
+    -> age int not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> insert into emp(id,name,occupation,age)values(1,'anju','Trainer',27);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(1,'anju','Trainer',27);
+ERROR 1062 (23000): Duplicate entry '1' for key 'emp.PRIMARY'
+mysql> insert into emp values(2,'anju','Trainer',27);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++----+------+------------+-----+
+| id | name | occupation | age |
++----+------+------------+-----+
+|  1 | anju | Trainer    |  27 |
+|  2 | anju | Trainer    |  27 |
++----+------+------------+-----+
+2 rows in set (0.00 sec)
+
+mysql> update emp set name='Mitul',occupation='Dev',age=24 where id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+-------+------------+-----+
+| id | name  | occupation | age |
++----+-------+------------+-----+
+|  1 | anju  | Trainer    |  27 |
+|  2 | Mitul | Dev        |  24 |
++----+-------+------------+-----+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp add address varchar(10) not null;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| address    | varchar(10) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from emp;
++----+-------+------------+-----+---------+
+| id | name  | occupation | age | address |
++----+-------+------------+-----+---------+
+|  1 | anju  | Trainer    |  27 |         |
+|  2 | Mitul | Dev        |  24 |         |
++----+-------+------------+-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set address='mumbai'where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+-------+------------+-----+---------+
+| id | name  | occupation | age | address |
++----+-------+------------+-----+---------+
+|  1 | anju  | Trainer    |  27 |         |
+|  2 | Mitul | Dev        |  24 | mumbai  |
++----+-------+------------+-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set address='navi mumbai'where id=1;
+ERROR 1406 (22001): Data too long for column 'address' at row 1
+mysql> update emp set address='mumbai'where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+-------+------------+-----+---------+
+| id | name  | occupation | age | address |
++----+-------+------------+-----+---------+
+|  1 | anju  | Trainer    |  27 | mumbai  |
+|  2 | Mitul | Dev        |  24 | mumbai  |
++----+-------+------------+-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp add dept varchar(10) not null after occupation,phoneno int(10) not null after age;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'phoneno int(10) not null after age' at line 1
+mysql> alter table emp add dept varchar(10) not null after occupation,phoneno int not null after age;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'phoneno int not null after age' at line 1
+mysql> alter table emp add dept varchar(10) not null after occupation,add phoneno int not null after age;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp;
++----+-------+------------+------+-----+---------+---------+
+| id | name  | occupation | dept | age | phoneno | address |
++----+-------+------------+------+-----+---------+---------+
+|  1 | anju  | Trainer    |      |  27 |       0 | mumbai  |
+|  2 | Mitul | Dev        |      |  24 |       0 | mumbai  |
++----+-------+------------+------+-----+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set dept='IT',phoneno=123456789 where id=1;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update emp set dept='IT',phoneno=223456789 where id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+-------+------------+------+-----+-----------+---------+
+| id | name  | occupation | dept | age | phoneno   | address |
++----+-------+------------+------+-----+-----------+---------+
+|  1 | anju  | Trainer    | IT   |  27 | 123456789 | mumbai  |
+|  2 | Mitul | Dev        | IT   |  24 | 223456789 | mumbai  |
++----+-------+------------+------+-----+-----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp modify address varchar(40);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| dept       | varchar(10) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| phoneno    | int         | NO   |     | NULL    |                |
+| address    | varchar(40) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.01 sec)
+
+mysql> alter table emp drop column phoneno;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| dept       | varchar(10) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| address    | varchar(40) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> insert into emp values(3,'xyz','abc','a125',28,'bhbksmdm');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++----+-------+------------+------+-----+----------+
+| id | name  | occupation | dept | age | address  |
++----+-------+------------+------+-----+----------+
+|  1 | anju  | Trainer    | IT   |  27 | mumbai   |
+|  2 | Mitul | Dev        | IT   |  24 | mumbai   |
+|  3 | xyz   | abc        | a125 |  28 | bhbksmdm |
++----+-------+------------+------+-----+----------+
+3 rows in set (0.00 sec)
+
+mysql> delete from emp where id=3;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++----+-------+------------+------+-----+---------+
+| id | name  | occupation | dept | age | address |
++----+-------+------------+------+-----+---------+
+|  1 | anju  | Trainer    | IT   |  27 | mumbai  |
+|  2 | Mitul | Dev        | IT   |  24 | mumbai  |
++----+-------+------------+------+-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> drop table emp;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from emp;
+ERROR 1146 (42S02): Table 'empdb.emp' doesn't exist
