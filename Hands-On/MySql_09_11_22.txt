@@ -1,0 +1,133 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 46
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use country;
+Database changed
+mysql> create table countrytb(
+    -> country_id int not null auto_increment,
+    -> country_name varchar(20) not null,
+    -> region_id int not null,
+    -> primary key(country_id)
+    -> );
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> desc countrytb;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| country_id   | int         | NO   | PRI | NULL    | auto_increment |
+| country_name | varchar(20) | NO   |     | NULL    |                |
+| region_id    | int         | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into countrytb values(101,'India',201);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into countrytb values(102,'Canada',202);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into countrytb values(103,'Germany',203);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into countrytb values(104,'Argentina',204);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into countrytb values(105,'Singapur',205);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> alter table countrytb modify country_name varchar(30);
+Query OK, 0 rows affected (0.28 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc countrytb;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| country_id   | int         | NO   | PRI | NULL    | auto_increment |
+| country_name | varchar(30) | YES  |     | NULL    |                |
+| region_id    | int         | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table countrytb add capital_name varchar(40) not null after country_name;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc countrytb;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| country_id   | int         | NO   | PRI | NULL    | auto_increment |
+| country_name | varchar(30) | YES  |     | NULL    |                |
+| capital_name | varchar(40) | NO   |     | NULL    |                |
+| region_id    | int         | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> update countrytb set capital_name='New Delhi';
+Query OK, 5 rows affected (0.12 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from countrytb;
++------------+--------------+--------------+-----------+
+| country_id | country_name | capital_name | region_id |
++------------+--------------+--------------+-----------+
+|        101 | India        | New Delhi    |       201 |
+|        102 | Canada       | New Delhi    |       202 |
+|        103 | Germany      | New Delhi    |       203 |
+|        104 | Argentina    | New Delhi    |       204 |
+|        105 | Singapur     | New Delhi    |       205 |
++------------+--------------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> update countrytb set capital_name='Unknown';
+Query OK, 5 rows affected (0.03 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> update countrytb set capital_name='New Delhi' where country_name='India';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from countrytb;
++------------+--------------+--------------+-----------+
+| country_id | country_name | capital_name | region_id |
++------------+--------------+--------------+-----------+
+|        101 | India        | New Delhi    |       201 |
+|        102 | Canada       | Unknown      |       202 |
+|        103 | Germany      | Unknown      |       203 |
+|        104 | Argentina    | Unknown      |       204 |
+|        105 | Singapur     | Unknown      |       205 |
++------------+--------------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into countrytb values(
+    -> 106,'Pakistan','Lahor',206);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> delete from countrytb where country_name='Singapur';
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from countrytb;
++------------+--------------+--------------+-----------+
+| country_id | country_name | capital_name | region_id |
++------------+--------------+--------------+-----------+
+|        101 | India        | New Delhi    |       201 |
+|        102 | Canada       | Unknown      |       202 |
+|        103 | Germany      | Unknown      |       203 |
+|        104 | Argentina    | Unknown      |       204 |
+|        106 | Pakistan     | Lahor        |       206 |
++------------+--------------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql>
