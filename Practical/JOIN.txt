@@ -1,0 +1,257 @@
+mysql> create table students(
+    -> s_id int not null,
+    -> s_name varchar(30) not null,
+    -> course_name varchar(30) not null,
+    -> primary key(s_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table officers(
+    -> of_id int not null,
+    -> of_name varchar(30) not null,
+    -> address varchar(30) not null,
+    -> primary key(of_id));
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.27 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use world;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| course          |
+| officers        |
+| student         |
+| student_detail  |
+| students        |
++-----------------+
+8 rows in set (0.01 sec)
+
+mysql> desc students;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| s_id        | int         | NO   | PRI | NULL    |       |
+| s_name      | varchar(30) | NO   |     | NULL    |       |
+| course_name | varchar(30) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc officers;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| of_id   | int         | NO   | PRI | NULL    |       |
+| of_name | varchar(30) | NO   |     | NULL    |       |
+| address | varchar(30) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from students;
++------+-----------+-------------+
+| s_id | s_name    | course_name |
++------+-----------+-------------+
+|    1 | bhakti    | java        |
+|    2 | akash     | java        |
+|    3 | aditya    | mongodb     |
+|    4 | sanskruti | hadoop      |
++------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from officers;
++-------+---------+----------+
+| of_id | of_name | address  |
++-------+---------+----------+
+|     1 | Ajeet   | mumbai   |
+|     2 | Rahul   | lucknow  |
+|     3 | Deepika | lucknow  |
+|     4 | vimal   | faizabad |
+|     5 | Anjali  | faizabad |
++-------+---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select officers.of_name,officers.address,students.s_name,students.course_name
+    -> from officers
+    -> INNER JOIN students
+    -> ON officers.of_id=students.s_id;
++---------+----------+-----------+-------------+
+| of_name | address  | s_name    | course_name |
++---------+----------+-----------+-------------+
+| Ajeet   | mumbai   | bhakti    | java        |
+| Rahul   | lucknow  | akash     | java        |
+| Deepika | lucknow  | aditya    | mongodb     |
+| vimal   | faizabad | sanskruti | hadoop      |
++---------+----------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select officers.of_name,students.s_name
+    -> from officers
+    -> LEFT JOIN students
+    -> ON officers.of_id=students.s_id;
++---------+-----------+
+| of_name | s_name    |
++---------+-----------+
+| Ajeet   | bhakti    |
+| Rahul   | akash     |
+| Deepika | aditya    |
+| vimal   | sanskruti |
+| Anjali  | NULL      |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select officers.address,students.course_name
+    -> from officers
+    -> RIGHT JOIN students
+    -> ON officers.of_id=students.s_id;
++----------+-------------+
+| address  | course_name |
++----------+-------------+
+| mumbai   | java        |
+| lucknow  | java        |
+| lucknow  | mongodb     |
+| faizabad | hadoop      |
++----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into students values(6,'anju','JAVA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into students values(7,'Manju','JAVA');
+Query OK, 1 row affected (0.02 sec)
+
+mysql>
+mysql> select * from students;
++------+-----------+-------------+
+| s_id | s_name    | course_name |
++------+-----------+-------------+
+|    1 | bhakti    | java        |
+|    2 | akash     | java        |
+|    3 | aditya    | mongodb     |
+|    4 | sanskruti | hadoop      |
+|    6 | anju      | JAVA        |
+|    7 | Manju     | JAVA        |
++------+-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select officers.address,students.course_name
+    -> from officers
+    -> RIGHT JOIN students
+    -> ON officers.of_id=students.s_id;
++----------+-------------+
+| address  | course_name |
++----------+-------------+
+| mumbai   | java        |
+| lucknow  | java        |
+| lucknow  | mongodb     |
+| faizabad | hadoop      |
+| NULL     | JAVA        |
+| NULL     | JAVA        |
++----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select officers.of_name,officers.address,students.s_name,students.course_name
+    -> from officers
+    -> FULL JOIN students
+    -> ON officers.of_id=students.s_id;
+ERROR 1054 (42S22): Unknown column 'officers.of_name' in 'field list'
+mysql> select * from officers;
++-------+---------+----------+
+| of_id | of_name | address  |
++-------+---------+----------+
+|     1 | Ajeet   | mumbai   |
+|     2 | Rahul   | lucknow  |
+|     3 | Deepika | lucknow  |
+|     4 | vimal   | faizabad |
+|     5 | Anjali  | faizabad |
++-------+---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from officers full join students;
++-------+---------+----------+------+-----------+-------------+
+| of_id | of_name | address  | s_id | s_name    | course_name |
++-------+---------+----------+------+-----------+-------------+
+|     5 | Anjali  | faizabad |    1 | bhakti    | java        |
+|     4 | vimal   | faizabad |    1 | bhakti    | java        |
+|     3 | Deepika | lucknow  |    1 | bhakti    | java        |
+|     2 | Rahul   | lucknow  |    1 | bhakti    | java        |
+|     1 | Ajeet   | mumbai   |    1 | bhakti    | java        |
+|     5 | Anjali  | faizabad |    2 | akash     | java        |
+|     4 | vimal   | faizabad |    2 | akash     | java        |
+|     3 | Deepika | lucknow  |    2 | akash     | java        |
+|     2 | Rahul   | lucknow  |    2 | akash     | java        |
+|     1 | Ajeet   | mumbai   |    2 | akash     | java        |
+|     5 | Anjali  | faizabad |    3 | aditya    | mongodb     |
+|     4 | vimal   | faizabad |    3 | aditya    | mongodb     |
+|     3 | Deepika | lucknow  |    3 | aditya    | mongodb     |
+|     2 | Rahul   | lucknow  |    3 | aditya    | mongodb     |
+|     1 | Ajeet   | mumbai   |    3 | aditya    | mongodb     |
+|     5 | Anjali  | faizabad |    4 | sanskruti | hadoop      |
+|     4 | vimal   | faizabad |    4 | sanskruti | hadoop      |
+|     3 | Deepika | lucknow  |    4 | sanskruti | hadoop      |
+|     2 | Rahul   | lucknow  |    4 | sanskruti | hadoop      |
+|     1 | Ajeet   | mumbai   |    4 | sanskruti | hadoop      |
+|     5 | Anjali  | faizabad |    6 | anju      | JAVA        |
+|     4 | vimal   | faizabad |    6 | anju      | JAVA        |
+|     3 | Deepika | lucknow  |    6 | anju      | JAVA        |
+|     2 | Rahul   | lucknow  |    6 | anju      | JAVA        |
+|     1 | Ajeet   | mumbai   |    6 | anju      | JAVA        |
+|     5 | Anjali  | faizabad |    7 | Manju     | JAVA        |
+|     4 | vimal   | faizabad |    7 | Manju     | JAVA        |
+|     3 | Deepika | lucknow  |    7 | Manju     | JAVA        |
+|     2 | Rahul   | lucknow  |    7 | Manju     | JAVA        |
+|     1 | Ajeet   | mumbai   |    7 | Manju     | JAVA        |
++-------+---------+----------+------+-----------+-------------+
+30 rows in set (0.00 sec)
+
+mysql> select * from officers cross join students;
++-------+---------+----------+------+-----------+-------------+
+| of_id | of_name | address  | s_id | s_name    | course_name |
++-------+---------+----------+------+-----------+-------------+
+|     5 | Anjali  | faizabad |    1 | bhakti    | java        |
+|     4 | vimal   | faizabad |    1 | bhakti    | java        |
+|     3 | Deepika | lucknow  |    1 | bhakti    | java        |
+|     2 | Rahul   | lucknow  |    1 | bhakti    | java        |
+|     1 | Ajeet   | mumbai   |    1 | bhakti    | java        |
+|     5 | Anjali  | faizabad |    2 | akash     | java        |
+|     4 | vimal   | faizabad |    2 | akash     | java        |
+|     3 | Deepika | lucknow  |    2 | akash     | java        |
+|     2 | Rahul   | lucknow  |    2 | akash     | java        |
+|     1 | Ajeet   | mumbai   |    2 | akash     | java        |
+|     5 | Anjali  | faizabad |    3 | aditya    | mongodb     |
+|     4 | vimal   | faizabad |    3 | aditya    | mongodb     |
+|     3 | Deepika | lucknow  |    3 | aditya    | mongodb     |
+|     2 | Rahul   | lucknow  |    3 | aditya    | mongodb     |
+|     1 | Ajeet   | mumbai   |    3 | aditya    | mongodb     |
+|     5 | Anjali  | faizabad |    4 | sanskruti | hadoop      |
+|     4 | vimal   | faizabad |    4 | sanskruti | hadoop      |
+|     3 | Deepika | lucknow  |    4 | sanskruti | hadoop      |
+|     2 | Rahul   | lucknow  |    4 | sanskruti | hadoop      |
+|     1 | Ajeet   | mumbai   |    4 | sanskruti | hadoop      |
+|     5 | Anjali  | faizabad |    6 | anju      | JAVA        |
+|     4 | vimal   | faizabad |    6 | anju      | JAVA        |
+|     3 | Deepika | lucknow  |    6 | anju      | JAVA        |
+|     2 | Rahul   | lucknow  |    6 | anju      | JAVA        |
+|     1 | Ajeet   | mumbai   |    6 | anju      | JAVA        |
+|     5 | Anjali  | faizabad |    7 | Manju     | JAVA        |
+|     4 | vimal   | faizabad |    7 | Manju     | JAVA        |
+|     3 | Deepika | lucknow  |    7 | Manju     | JAVA        |
+|     2 | Rahul   | lucknow  |    7 | Manju     | JAVA        |
+|     1 | Ajeet   | mumbai   |    7 | Manju     | JAVA        |
++-------+---------+----------+------+-----------+-------------+
+30 rows in set (0.00 sec)
+
+mysql>
